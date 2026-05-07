@@ -29,57 +29,44 @@ spec:
         app.kubernetes.io/name: airflow
     spec:
       serviceAccountName: spark-sa
-
       securityContext:
         fsGroup: 50000
-
       containers:
         - name: airflow
           image: apache/airflow:2.10.5-python3.11
-
           imagePullPolicy: IfNotPresent
-
           command:
             - /bin/bash
             - -c
             - |
-              pip install pyspark && \
+              pip install pyspark==4.0.2
               airflow standalone
-
           env:
             - name: AIRFLOW__CORE__LOAD_EXAMPLES
               value: "false"
-
             - name: AIRFLOW__WEBSERVER__EXPOSE_CONFIG
               value: "true"
-
             - name: AIRFLOW_UID
               value: "50000"
-
           ports:
             - containerPort: 8080
               name: airflow-ui
-
           volumeMounts:
             - name: airflow-logs
               mountPath: /opt/airflow/logs
-
             - name: spark-events
               mountPath: /opt/spark/spark-events
-
           resources:
             requests:
-              cpu: 500m
-              memory: 1Gi
+              cpu: "1"
+              memory: 2Gi
             limits:
               cpu: "2"
-              memory: 2Gi
-
+              memory: 4Gi
       volumes:
         - name: airflow-logs
           persistentVolumeClaim:
             claimName: airflow-logs-pvc
-
         - name: spark-events
           persistentVolumeClaim:
             claimName: spark-events-pvc
@@ -96,4 +83,4 @@ spec:
   ports:
     - name: airflow-ui
       port: 8080
-      targetPort: 8080
+      targetPort: airflow-ui
