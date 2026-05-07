@@ -40,7 +40,7 @@ spec:
             - -c
             - |
               pip install --no-cache-dir \
-                apache-airflow-providers-apache-spark==5.3.3 \
+                apache-airflow-providers-apache-spark==4.11.1 \
                 pyspark==3.5.5
 
               airflow standalone
