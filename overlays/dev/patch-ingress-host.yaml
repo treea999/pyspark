@@ -5,7 +5,7 @@ metadata:
   namespace: spark
 spec:
   rules:
-    - host: spark-master.dev.local
+    - host: spark-master.tree.com
       http:
         paths:
           - path: /
@@ -23,7 +23,7 @@ metadata:
   namespace: spark
 spec:
   rules:
-    - host: spark-history.dev.local
+    - host: spark-history.tree.com
       http:
         paths:
           - path: /
