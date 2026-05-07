@@ -39,12 +39,18 @@ spec:
             - /bin/bash
             - -c
             - |
+              apt-get update && \
+              apt-get install -y --no-install-recommends default-jre-headless procps && \
+              rm -rf /var/lib/apt/lists/*
+              
               pip install --no-cache-dir \
                 apache-airflow-providers-apache-spark==4.11.1 \
                 pyspark==3.5.5
 
               airflow standalone
           env:
+            - name: JAVA_HOME
+              value: /usr/lib/jvm/java-17-openjdk-amd64
             - name: AIRFLOW__CORE__LOAD_EXAMPLES
               value: "false"
             - name: AIRFLOW__WEBSERVER__EXPOSE_CONFIG
