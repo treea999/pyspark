@@ -17,24 +17,20 @@ spec:
     spec:
       serviceAccountName: spark-sa
       securityContext:
-        runAsUser: 185
-        runAsGroup: 185
         fsGroup: 185
       containers:
         - name: spark-master
           image: apache/spark:4.0.2
           imagePullPolicy: IfNotPresent
           command:
-            - /opt/spark/bin/spark-class
-            - org.apache.spark.deploy.master.Master
+            - /bin/bash
+            - -c
+            - |
+              export SPARK_MASTER_HOST=$(hostname -i)
+              /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master
           envFrom:
             - configMapRef:
                 name: spark-config
-          env:
-            - name: SPARK_LOCAL_IP
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.podIP
           ports:
             - name: master-rpc
               containerPort: 7077
@@ -46,12 +42,12 @@ spec:
           readinessProbe:
             tcpSocket:
               port: 7077
-            initialDelaySeconds: 10
+            initialDelaySeconds: 20
             periodSeconds: 10
           livenessProbe:
             tcpSocket:
               port: 7077
-            initialDelaySeconds: 30
+            initialDelaySeconds: 60
             periodSeconds: 20
           resources:
             requests:
