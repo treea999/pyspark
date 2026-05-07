@@ -12,6 +12,7 @@ resources:
   - services.yaml
   - ingress.yaml
   - networkpolicy.yaml
+  - airflow.yaml
 
 commonLabels:
   app.kubernetes.io/part-of: spark-standalone
