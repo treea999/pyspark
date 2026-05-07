@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: spark-pi-test
+  namespace: spark
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: spark-submit
+          image: apache/spark:3.5.5
+          command:
+            - /opt/spark/bin/spark-submit
+            - --master
+            - spark://spark-master.spark.svc.cluster.local:7077
+            - --class
+            - org.apache.spark.examples.SparkPi
+            - --conf
+            - spark.eventLog.enabled=true
+            - --conf
+            - spark.eventLog.dir=file:/opt/spark/spark-events
+            - /opt/spark/examples/jars/spark-examples_2.12-3.5.5.jar
+            - "10"
+          volumeMounts:
+            - name: spark-events
+              mountPath: /opt/spark/spark-events
+      volumes:
+        - name: spark-events
+          persistentVolumeClaim:
+            claimName: spark-events-pvc
+  backoffLimit: 0

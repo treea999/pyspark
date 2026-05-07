@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-master
+  namespace: spark
+  labels:
+    app.kubernetes.io/name: spark-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: spark-master
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: spark-master
+    spec:
+      serviceAccountName: spark-sa
+      securityContext:
+        fsGroup: 185
+      containers:
+        - name: spark-master
+          image: apache/spark:3.5.5
+          imagePullPolicy: IfNotPresent
+          command:
+            - /opt/spark/bin/spark-class
+            - org.apache.spark.deploy.master.Master
+          envFrom:
+            - configMapRef:
+                name: spark-config
+          ports:
+            - name: master-rpc
+              containerPort: 7077
+            - name: master-ui
+              containerPort: 8080
+          readinessProbe:
+            tcpSocket:
+              port: 7077
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 7077
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi

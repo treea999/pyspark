@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spark-config
+  namespace: spark
+data:
+  SPARK_NO_DAEMONIZE: "true"
+
+  # Master
+  SPARK_MASTER_HOST: "spark-master"
+  SPARK_MASTER_PORT: "7077"
+  SPARK_MASTER_WEBUI_PORT: "8080"
+
+  # Worker
+  SPARK_WORKER_WEBUI_PORT: "8081"
+  SPARK_WORKER_CORES: "2"
+  SPARK_WORKER_MEMORY: "2g"
+
+  # History Server
+  SPARK_HISTORY_OPTS: >-
+    -Dspark.history.fs.logDirectory=file:/opt/spark/spark-events
+    -Dspark.history.fs.cleaner.enabled=true
+    -Dspark.history.fs.cleaner.maxAge=7d
+    -Dspark.history.fs.cleaner.interval=1d
+    -Dspark.history.ui.port=18080
+    -Dspark.ui.reverseProxy=true
