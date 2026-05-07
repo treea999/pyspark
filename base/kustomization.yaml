@@ -5,7 +5,8 @@ resources:
   - namespace.yaml
   - serviceaccount.yaml
   - configmap.yaml
-  - pvc.yaml
+  - pyspark-pvc.yaml
+  - airflow-pvc.yaml
   - spark-master.yaml
   - spark-worker.yaml
   - spark-history.yaml
