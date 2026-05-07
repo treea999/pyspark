@@ -9,7 +9,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: spark-submit
-          image: apache/spark:3.5.5
+          image: apache/spark:4.0.2
           command:
             - /opt/spark/bin/spark-submit
             - --master
