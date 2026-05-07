@@ -35,3 +35,22 @@ spec:
                 name: spark-history
                 port:
                   number: 18080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: airflow-ui
+  namespace: spark
+spec:
+  ingressClassName: public
+  rules:
+    - host: airflow.tree.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: airflow
+                port:
+                  number: 8080
