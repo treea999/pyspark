@@ -3,9 +3,8 @@ kind: Ingress
 metadata:
   name: spark-master-ui
   namespace: spark
-  annotations:
-    kubernetes.io/ingress.class: public
 spec:
+  ingressClassName: public
   rules:
     - host: spark-master.tree.com
       http:
@@ -23,9 +22,8 @@ kind: Ingress
 metadata:
   name: spark-history-ui
   namespace: spark
-  annotations:
-    kubernetes.io/ingress.class: public
 spec:
+  ingressClassName: public
   rules:
     - host: spark-history.tree.com
       http:
