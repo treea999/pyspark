@@ -17,6 +17,8 @@ spec:
     spec:
       serviceAccountName: spark-sa
       securityContext:
+        runAsUser: 185
+        runAsGroup: 185
         fsGroup: 185
       containers:
         - name: spark-master
@@ -28,11 +30,19 @@ spec:
           envFrom:
             - configMapRef:
                 name: spark-config
+          env:
+            - name: SPARK_LOCAL_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
           ports:
             - name: master-rpc
               containerPort: 7077
             - name: master-ui
               containerPort: 8080
+          volumeMounts:
+            - name: spark-events
+              mountPath: /opt/spark/spark-events
           readinessProbe:
             tcpSocket:
               port: 7077
@@ -50,3 +60,7 @@ spec:
             limits:
               cpu: "1"
               memory: 1Gi
+      volumes:
+        - name: spark-events
+          persistentVolumeClaim:
+            claimName: spark-events-pvc
