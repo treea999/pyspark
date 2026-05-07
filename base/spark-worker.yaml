@@ -20,7 +20,7 @@ spec:
         fsGroup: 185
       containers:
         - name: spark-worker
-          image: apache/spark:3.5.5
+          image: apache/spark:4.0.2
           imagePullPolicy: IfNotPresent
           command:
             - /opt/spark/bin/spark-class
