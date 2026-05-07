@@ -39,7 +39,7 @@ spec:
             - /bin/bash
             - -c
             - |
-              pip install pyspark==4.0.2
+              pip install pyspark==4.0.2 apache-airflow-providers-apache-spark
               airflow standalone
           env:
             - name: AIRFLOW__CORE__LOAD_EXAMPLES
