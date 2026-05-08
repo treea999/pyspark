@@ -87,6 +87,8 @@ spec:
               mountPath: /opt/spark/spark-events
             - name: airflow-tools
               mountPath: /opt/tools
+            - name: airflow-dags
+              mountPath: /opt/airflow/dags
           resources:
             requests:
               cpu: "1"
@@ -105,6 +107,9 @@ spec:
         - name: airflow-tools
           persistentVolumeClaim:
             claimName: airflow-tools-pvc
+        - name: airflow-dags
+          persistentVolumeClaim:
+            claimName: airflow-dags-pvc
 ---
 apiVersion: v1
 kind: Service
