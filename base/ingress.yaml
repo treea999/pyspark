@@ -54,3 +54,22 @@ spec:
                 name: airflow
                 port:
                   number: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minio-console-ingress
+  namespace: spark
+spec:
+  ingressClassName: public
+  rules:
+    - host: minio.tree.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: minio
+                port:
+                  number: 9001
