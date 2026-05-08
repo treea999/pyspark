@@ -7,6 +7,7 @@ resources:
   - configmap.yaml
   - pyspark-pvc.yaml
   - airflow-pvc.yaml
+  - minio-pvc.yaml
   - spark-master.yaml
   - spark-worker.yaml
   - spark-history.yaml
@@ -14,6 +15,7 @@ resources:
   - ingress.yaml
   - networkpolicy.yaml
   - airflow.yaml
+  - minio.yaml
 
 commonLabels:
   app.kubernetes.io/part-of: spark-standalone
